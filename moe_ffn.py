@@ -1,14 +1,3 @@
-# onmt_local4/onmt/modules/moe_ffn.py
-#
-# Encoder-side MoE-FFN (Mixture-of-Experts for Transformer FFN) with:
-#   - Top-k token routing
-#   - Load-balance auxiliary loss (importance + hard load, CV^2)
-#   - Router temperature + training-time Gaussian noise
-#   - (NEW) Heterogeneous expert widths via `expert_dffs`
-#   - (NEW) Compute-aware regularization via expected expert cost
-#
-# This file is intentionally self-contained and uses the existing
-# onmt.modules.aux_registry mechanism so Trainer can aggregate aux losses.
 
 import math
 import os
@@ -36,13 +25,7 @@ def _balance_aux_loss(
     hard_counts: torch.Tensor,
     alpha: float = 0.02,
 ) -> torch.Tensor:
-    """Load-balance auxiliary loss.
 
-    Args:
-        probs: [S, E] softmax probabilities over all experts (differentiable).
-        hard_counts: [E] hard token counts per expert (detached inside).
-        alpha: coefficient.
-    """
     S, E = probs.size()
     imp = probs.sum(dim=0)  # importance (differentiable)
     load = hard_counts.detach().to(probs.dtype)  # hard load (no grad)

@@ -1,7 +1,6 @@
-# onmt_local/onmt/modules/aux_registry.py
+
 import torch
 
-# 训练一步期间，MoE 各层把 aux loss 丢进来；trainer 再一次性取走
 _AUX_LOSSES = []
 
 def push(loss: torch.Tensor):

@@ -1,14 +1,3 @@
-"""Implementation of "Attention is All You Need" (Transformer encoder).
-
-This onmt_local4 variant includes an encoder-side MoE FFN option:
-  - When enc_num_experts > 0, replace dense FFN with MoEPositionwiseFFN.
-  - LayerNorm/residual for the MoE branch are handled in the encoder layer
-    to match onmt PositionwiseFeedForward behaviour.
-
-NEW in this patch:
-  - Heterogeneous expert widths via enc_expert_dffs
-  - Compute-aware regularization via enc_comp_beta
-"""
 
 import os
 from typing import List, Optional
@@ -24,14 +13,7 @@ from onmt.utils.misc import sequence_mask
 
 
 def _parse_int_list(maybe_list) -> Optional[List[int]]:
-    """Parse YAML/CLI value into list[int].
 
-    Supports:
-      - None
-      - Python list/tuple (already parsed)
-      - YAML string: "[2048, 4096, 8192]"
-      - CSV string: "2048,4096,8192"
-    """
     if maybe_list is None:
         return None
     if isinstance(maybe_list, (list, tuple)):
@@ -125,8 +107,6 @@ class TransformerEncoderLayer(nn.Module):
                 num_modalities=int(enc_num_modalities),
             )
 
-            # For MoE branch we need explicit LN + residual here because
-            # PositionwiseFeedForward in ONMT includes its own LN/residual.
             self.ffn_layer_norm = nn.LayerNorm(d_model, eps=1e-6)
         else:
             self.feed_forward = PositionwiseFeedForward(
