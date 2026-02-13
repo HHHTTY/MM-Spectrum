@@ -18,7 +18,7 @@ This repo focuses on:
 
 
 
-## 1. Highlights
+## 😃 1. Highlights
 
 **MM-Spectrum** targets realistic multimodal spectroscopy modeling challenges:
 
@@ -30,7 +30,7 @@ This repo focuses on:
 
 ---
 
-## 2. Benchmark Lineage
+## 💭 2. Benchmark Lineage
 
 This project is an extension of the benchmark codebase:
 
@@ -45,7 +45,7 @@ MM-Spectrum keeps the benchmark’s **dataset format and preprocessing interface
 
 ---
 
-## 3. Method Overview (MM-Spectrum)
+## ⭐ 3. Method Overview (MM-Spectrum)
 
 ### 3.1 Problem Setting
 
@@ -72,7 +72,7 @@ MM-Spectrum introduces a **modality-aware MoE feed-forward block** into the tran
 
 ---
 
-## 4. Requirements
+## 🚩 4. Requirements
 
 ### 4.1 System
 - Linux recommended
@@ -90,7 +90,7 @@ pip install -r requirements.txt
 ```
 ---
 
-## 5. Data format
+## 🎈 5. Data format
 
 ### 5.1 OpenNMT corpora basics
 
@@ -121,7 +121,7 @@ Common choices:
 
 ---
 
-## 6. Training
+## ✨ 6. Training
 
 ### 6.1 Standard training entry
 
@@ -162,7 +162,7 @@ Each run folder should contain:
 
 ---
 
-## 7. MoE implementation notes
+## ⏰ 7. MoE implementation notes
 
 This section is intentionally engineering-level: where to look and what to be careful about.
 
@@ -204,7 +204,7 @@ At minimum per step:
 
 ---
 
-## 8. Logging & diagnostics
+## 🧠 8. Logging & diagnostics
 
 ### 8.1 Standard logs
 
