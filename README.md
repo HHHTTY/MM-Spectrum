@@ -90,9 +90,9 @@ pip install -r requirements.txt
 ```
 ---
 
-5. Data format
+## 5. Data format
 
-5.1 OpenNMT corpora basics
+### 5.1 OpenNMT corpora basics
 
 OpenNMT seq2seq typically expects parallel text:
 	•	*.src: source sequence (spectra tokens)
@@ -100,7 +100,7 @@ OpenNMT seq2seq typically expects parallel text:
 
 Each line is one example.
 
-5.2 Multimodal source formatting (recommended)
+### 5.2 Multimodal source formatting (recommended)
 
 To keep engineering simple and reproducible, represent each modality as a tagged segment:
 ```bash
@@ -111,7 +111,7 @@ If you support missing-modality evaluation, you can:
 	•	drop segments at preprocessing time, or
 	•	keep tags but replace content with a <MISSING> token.
 
-5.3 Tokenization
+### 5.3 Tokenization
 
 This repo assumes preprocessing produces space-separated tokens.
 Common choices:
@@ -121,9 +121,9 @@ Common choices:
 
 ---
 
-6. Training
+## 6. Training
 
-6.1 Standard training entry
+### 6.1 Standard training entry
 
 The repo typically uses a wrapper (e.g., benchmark/start_training.py) that:
 	•	copies YAML template into the run folder
@@ -131,7 +131,7 @@ The repo typically uses a wrapper (e.g., benchmark/start_training.py) that:
 	•	runs onmt_train with consistent logging
 	•	saves CSV summaries per step
 
-6.2 Key config fields you should verify
+### 6.2 Key config fields you should verify
 
 Because OpenNMT configs can silently ignore wrong keys, always verify:
 	•	Data:
@@ -147,7 +147,7 @@ Because OpenNMT configs can silently ignore wrong keys, always verify:
 	•	batch_type (tokens vs sents)
 	•	batch_size, accum_count 
 
-6.3 Outputs
+### 6.3 Outputs
 
 Each run folder should contain:
 	•	config.yaml (final resolved config)
@@ -160,12 +160,13 @@ Each run folder should contain:
 	•	MoE stats:
 	•	moe_steps.csv, moe_aux.csv (names may differ in your repo)
 
+---
 
-7. MoE implementation notes
+## 7. MoE implementation notes
 
 This section is intentionally engineering-level: where to look and what to be careful about.
 
-7.1 Where MoE lives
+### 7.1 Where MoE lives
 
 Typical OpenNMT-style integration points:
 	•	Transformer encoder FFN block replacement
@@ -178,7 +179,7 @@ You should expect code in modules like:
 	•	trainer.py (loss aggregation / normalization)
 	•	utils/logging.py (CSV export)
 
-7.2 Common correctness pitfalls (check these first)
+### 7.2 Common correctness pitfalls (check these first)
 	1.	Aux loss scaling
 Make sure MoE aux losses are not accidentally divided twice by token normalization.
 	2.	Dropout / layernorm placement
@@ -192,7 +193,7 @@ This impacts stability and speed.
 	4.	Train vs inference routing mismatch
 Ensure router uses consistent temperature, top-k, and deterministic mode for eval.
 
-7.3 What to log for MoE debugging
+### 7.3 What to log for MoE debugging
 
 At minimum per step:
 	•	expert load / importance
@@ -201,23 +202,24 @@ At minimum per step:
 	•	router temperature / top-k
 	•	aux loss values
 
+---
 
-8. Logging & diagnostics
+## 8. Logging & diagnostics
 
-8.1 Standard logs
+### 8.1 Standard logs
 
 A good run folder should include:
 	•	train.log (OpenNMT console log)
 	•	train_steps.csv: step-wise loss/ppl/lr/tokens/sec
 	•	valid_summary.csv: validation metrics per checkpoint
 
-8.2 MoE logs
+### 8.2 MoE logs
 
 If enabled:
 	•	moe_steps.csv: per-step routing statistics
 	•	moe_aux.csv: aux loss components over time
 
-8.3 Anomaly report
+### 8.3 Anomaly report
 
 Optional script to automatically flag:
 	•	sudden throughput drops
