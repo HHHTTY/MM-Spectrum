@@ -1,4 +1,4 @@
-# MM-Spectrum: Multimodal Spectra → SMILES with MoE + Diagnostics
+# MM-Spectrum: Multimodal Spectra → SMILES with MoE
 
 
 MM-Spectrum is a research for **molecular structure prediction and conditional generation** from **multiple spectroscopic modalities** (e.g., ¹H NMR, ¹³C NMR, IR, MS).  
@@ -68,7 +68,7 @@ MM-Spectrum introduces a **modality-aware MoE feed-forward block** into the tran
   - load-balancing, entropy, coefficient of variation,
   - auxiliary losses and stability over steps.
 
-
+![MM-Spectrum](./figs/MM-Spectrum.png)
 
 ---
 
