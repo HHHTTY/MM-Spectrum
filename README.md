@@ -87,7 +87,8 @@ MM-Spectrum introduces a **modality-aware MoE feed-forward block** into the tran
 conda create -n mmspectrum python=3.10 -y
 conda activate mmspectrum
 pip install -r requirements.txt
-```
+```python
+
 ---
 
 ## 🎈 5. Data format
